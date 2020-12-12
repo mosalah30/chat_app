@@ -9,7 +9,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../AppTheme.dart';
-import '../AppThemeNotifier.dart';
 
 class ChatAudioScreen extends StatefulWidget {
   @override
@@ -55,16 +54,14 @@ class _ChatAudioScreenState extends State<ChatAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeNotifier>(
-      builder: (BuildContext context, AppThemeNotifier value, Widget child) {
-        themeData = AppTheme.getThemeFromThemeMode(value.themeMode());
-        customAppTheme = AppTheme.getCustomAppTheme(value.themeMode());
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
-            home: SafeArea(
-              child: Scaffold(
-                  body: Container(
+    themeData = AppTheme.getThemeFromThemeMode();
+    customAppTheme = AppTheme.getCustomAppTheme();
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.getThemeFromThemeMode(),
+        home: SafeArea(
+          child: Scaffold(
+              body: Container(
                 //color: themeData.colorScheme.primary.withAlpha(80),
                 color: customAppTheme.bgLayer1,
                 height: MySize.safeHeight,
@@ -110,9 +107,7 @@ class _ChatAudioScreenState extends State<ChatAudioScreen> {
                   ],
                 ),
               )),
-            ));
-      },
-    );
+        ));
   }
 
   Widget singleCall(

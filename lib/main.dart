@@ -1,40 +1,42 @@
 import 'package:chat_app/AppTheme.dart';
-import 'package:chat_app/AppThemeNotifier.dart';
-import 'package:chat_app/pages/Login2Screen.dart';
-import 'package:chat_app/pages/chat_home_Page/ChatHomeScreen.dart';
-import 'package:chat_app/utils/SizeConfig.dart';
+import 'package:chat_app/core/services/localization/localization.dart';
+import 'package:chat_app/pages/LoginScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'core/services/preference/preference.dart';
-import 'pages/ChatScreen.dart';
-void main() {
+import 'core/services/theme/theme_provider.dart';
+import 'core/utils/provider_setup.dart';
 
-  //You will need to initialize AppThemeNotifier class for theme changes.
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  await Preference.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(ChangeNotifierProvider<AppThemeNotifier>(
-      create: (context) => AppThemeNotifier(),
-      child: MyApp(),
-    ));
+    runApp(MyApp());
   });
+
 }
 
 class MyApp extends StatelessWidget {
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeNotifier>(
-      builder: (c, v, child) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.getThemeFromThemeMode(v.themeMode()),
-          home: Login2Screen(),
-        );
-      },
+
+    return MultiProvider(
+      providers: providers,
+      child: Consumer2<AppLanguageModel, ThemeProvider>(
+        builder: (c, v,l, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.getThemeFromThemeMode(0),
+            home: LoginScreen(),
+          );
+        },
+      ),
     );
   }
 }

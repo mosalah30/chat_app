@@ -9,7 +9,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../AppTheme.dart';
-import '../AppThemeNotifier.dart';
 import 'ChatAudioScreen.dart';
 import 'ChatVideoScreen.dart';
 
@@ -78,16 +77,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeNotifier>(
-      builder: (BuildContext context, AppThemeNotifier value, Widget child) {
-        themeData = AppTheme.getThemeFromThemeMode(value.themeMode());
-        customAppTheme = AppTheme.getCustomAppTheme(value.themeMode());
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
-            home: SafeArea(
-              child: Scaffold(
-                  body: Container(
+    themeData = AppTheme.getThemeFromThemeMode();
+    customAppTheme = AppTheme.getCustomAppTheme();
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.getThemeFromThemeMode(),
+        home: SafeArea(
+          child: Scaffold(
+              body: Container(
                 color: customAppTheme.bgLayer1,
                 child: Column(
                   children: [
@@ -96,47 +93,45 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     Expanded(
                         child: Container(
-                      margin: Spacing.horizontal(16),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        padding: Spacing.zero,
-                        itemCount: _chatList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: index == 0
-                                ? Spacing.only(top: 12, bottom: 6).add(
+                          margin: Spacing.horizontal(16),
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: Spacing.zero,
+                            itemCount: _chatList.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: index == 0
+                                    ? Spacing.only(top: 12, bottom: 6).add(
                                     _chatList[index].from.compareTo(ChatModel.myId) == 0
                                         ? EdgeInsets.only(
-                                            left: MediaQuery.of(context).size.width *
-                                                0.2)
+                                        left: MediaQuery.of(context).size.width *
+                                            0.2)
                                         : EdgeInsets.only(
-                                            right: MediaQuery.of(context).size.width *
-                                                0.2))
-                                : Spacing.only(top: 6, bottom: 6).add(
+                                        right: MediaQuery.of(context).size.width *
+                                            0.2))
+                                    : Spacing.only(top: 6, bottom: 6).add(
                                     _chatList[index].from.compareTo(ChatModel.myId) == 0
                                         ? EdgeInsets.only(
-                                            left: MediaQuery.of(context).size.width * 0.2)
+                                        left: MediaQuery.of(context).size.width * 0.2)
                                         : EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.2)),
-                            alignment: _chatList[index]
-                                        .from
-                                        .compareTo(ChatModel.myId) ==
+                                alignment: _chatList[index]
+                                    .from
+                                    .compareTo(ChatModel.myId) ==
                                     0
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: singleChat(index),
-                          );
-                        },
-                      ),
-                    )),
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                                child: singleChat(index),
+                              );
+                            },
+                          ),
+                        )),
                     Container(
                       child: bottomBarWidget(),
                     )
                   ],
                 ),
               )),
-            ));
-      },
-    );
+        ));
   }
 
   Widget appBarWidget() {

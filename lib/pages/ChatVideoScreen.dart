@@ -5,10 +5,9 @@ import 'package:chat_app/utils/SizeConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../AppTheme.dart';
-import '../AppThemeNotifier.dart';
+
 
 class ChatVideoScreen extends StatefulWidget {
   @override
@@ -20,10 +19,9 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
   CustomAppTheme customAppTheme;
   Timer _timer;
   int _nowTime = 0;
-  String timeText="00 : 00";
+  String timeText = "00 : 00";
 
   bool isAudioOn = false, isVideoOn = true;
-
 
   @override
   void initState() {
@@ -31,14 +29,14 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
     startTimer();
   }
 
-
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer) => setState(() {
-            _nowTime = _nowTime + 1;
-            timeText = Generator.getTextFromSeconds(time: _nowTime);
+      (Timer timer) => setState(
+        () {
+          _nowTime = _nowTime + 1;
+          timeText = Generator.getTextFromSeconds(time: _nowTime);
         },
       ),
     );
@@ -46,22 +44,20 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
 
   @override
   void dispose() {
-
     super.dispose();
     _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeNotifier>(
-      builder: (BuildContext context, AppThemeNotifier value, Widget child) {
-        themeData = AppTheme.getThemeFromThemeMode(value.themeMode());
-        customAppTheme = AppTheme.getCustomAppTheme(value.themeMode());
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
-            home: Scaffold(
-                body: Container(
+    themeData = AppTheme.getThemeFromThemeMode();
+    customAppTheme = AppTheme.getCustomAppTheme();
+
+    return   MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.getThemeFromThemeMode(),
+        home: Scaffold(
+            body: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Stack(
@@ -119,8 +115,6 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
                 ],
               ),
             )));
-      },
-    );
   }
 
   Widget secondCall() {
@@ -164,8 +158,8 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
       child: Container(
         padding: Spacing.all(12),
         decoration: BoxDecoration(
-            color: customAppTheme.bgLayer1.withAlpha(236),
-            borderRadius: BorderRadius.all(Radius.circular(MySize.size64)),
+          color: customAppTheme.bgLayer1.withAlpha(236),
+          borderRadius: BorderRadius.all(Radius.circular(MySize.size64)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -177,13 +171,7 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
               decoration: BoxDecoration(
                   color: customAppTheme.bgLayer1,
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                        color: customAppTheme.shadowColor,
-                        blurRadius: MySize.size6,
-                        spreadRadius: 1,
-                        offset: Offset(0, MySize.size2))
-                  ]),
+                  boxShadow: [BoxShadow(color: customAppTheme.shadowColor, blurRadius: MySize.size6, spreadRadius: 1, offset: Offset(0, MySize.size2))]),
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -191,9 +179,7 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
                   });
                 },
                 child: Icon(
-                  isAudioOn
-                      ? MdiIcons.microphoneOutline
-                      : MdiIcons.microphoneOff,
+                  isAudioOn ? MdiIcons.microphoneOutline : MdiIcons.microphoneOff,
                   size: MySize.size26,
                   color: themeData.colorScheme.onBackground,
                 ),
@@ -205,13 +191,7 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
               decoration: BoxDecoration(
                   color: customAppTheme.bgLayer1,
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                        color: customAppTheme.shadowColor,
-                        blurRadius: MySize.size6,
-                        spreadRadius: 1,
-                        offset: Offset(0, MySize.size2))
-                  ]),
+                  boxShadow: [BoxShadow(color: customAppTheme.shadowColor, blurRadius: MySize.size6, spreadRadius: 1, offset: Offset(0, MySize.size2))]),
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -228,18 +208,11 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
             Container(
               padding: Spacing.all(10),
               margin: Spacing.top(8),
-              decoration: BoxDecoration(
-                  color: customAppTheme.colorError,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                        color: customAppTheme.colorError.withAlpha(100),
-                        blurRadius: MySize.size6,
-                        spreadRadius: 1,
-                        offset: Offset(0, MySize.size2))
-                  ]),
+              decoration: BoxDecoration(color: customAppTheme.colorError, shape: BoxShape.circle, boxShadow: [
+                BoxShadow(color: customAppTheme.colorError.withAlpha(100), blurRadius: MySize.size6, spreadRadius: 1, offset: Offset(0, MySize.size2))
+              ]),
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -255,30 +228,23 @@ class _ChatVideoScreenState extends State<ChatVideoScreen> {
     );
   }
 
-  Widget timeWidget(){
+  Widget timeWidget() {
     return Container(
-      padding: Spacing.fromLTRB(16,12,16,12),
-      decoration: BoxDecoration(
-          color: Colors.black.withAlpha(70),
-          borderRadius: BorderRadius.all(Radius.circular(MySize.size32))
-      ),
+      padding: Spacing.fromLTRB(16, 12, 16, 12),
+      decoration: BoxDecoration(color: Colors.black.withAlpha(70), borderRadius: BorderRadius.all(Radius.circular(MySize.size32))),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             width: MySize.size8,
             height: MySize.size8,
-            decoration: BoxDecoration(
-                color: customAppTheme.colorError,
-                shape: BoxShape.circle
-            ),
+            decoration: BoxDecoration(color: customAppTheme.colorError, shape: BoxShape.circle),
           ),
           Container(
             margin: Spacing.left(12),
             child: Text(
               timeText,
-              style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
-                  color: Colors.white, letterSpacing: 0.4,fontWeight: 600),
+              style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, color: Colors.white, letterSpacing: 0.4, fontWeight: 600),
             ),
           ),
         ],

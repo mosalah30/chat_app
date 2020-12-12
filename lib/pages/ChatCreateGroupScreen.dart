@@ -7,7 +7,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import '../AppTheme.dart';
-import '../AppThemeNotifier.dart';
 
 class ChatCreateGroupScreen extends StatefulWidget {
   @override
@@ -28,305 +27,300 @@ class _ChatCreateGroupScreenState extends State<ChatCreateGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeNotifier>(
-      builder: (BuildContext context, AppThemeNotifier value, Widget child) {
-        int themeType = value.themeMode();
-        themeData = AppTheme.getThemeFromThemeMode(themeType);
-        customAppTheme = AppTheme.getCustomAppTheme(themeType);
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.getThemeFromThemeMode(themeType),
-            home: SafeArea(
-              child: Scaffold(
-                  body: Container(
-                      color: customAppTheme.bgLayer1,
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: Spacing.fromLTRB(24, 16, 24, 0),
-                            child: Row(
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Icon(
-                                      MdiIcons.chevronLeft,
-                                      color: themeData.colorScheme.onBackground,
-                                      size: MySize.size24,
-                                    )),
-                                Container(
-                                  margin: Spacing.left(16),
-                                  child: Text(
-                                    "Create Group",
-                                    style: AppTheme.getTextStyle(
-                                        themeData.textTheme.headline6,
-                                        color:
-                                            themeData.colorScheme.onBackground,
-                                        fontWeight: 700),
-                                  ),
-                                ),
-                              ],
+    themeData = AppTheme.getThemeFromThemeMode();
+    customAppTheme = AppTheme.getCustomAppTheme();
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.getThemeFromThemeMode(),
+        home: SafeArea(
+          child: Scaffold(
+              body: Container(
+                  color: customAppTheme.bgLayer1,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: Spacing.fromLTRB(24, 16, 24, 0),
+                        child: Row(
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  MdiIcons.chevronLeft,
+                                  color: themeData.colorScheme.onBackground,
+                                  size: MySize.size24,
+                                )),
+                            Container(
+                              margin: Spacing.left(16),
+                              child: Text(
+                                "Create Group",
+                                style: AppTheme.getTextStyle(
+                                    themeData.textTheme.headline6,
+                                    color:
+                                    themeData.colorScheme.onBackground,
+                                    fontWeight: 700),
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: Spacing.fromLTRB(24, 16, 24, 0),
-                            decoration: BoxDecoration(
-                                color: themeData.colorScheme.background,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(MySize.size8))),
-                            padding: Spacing.all(6),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.only(left: MySize.size16),
-                                    child: TextFormField(
-                                      style: AppTheme.getTextStyle(
-                                          themeData.textTheme.bodyText2,
-                                          letterSpacing: 0,
-                                          color: themeData
-                                              .colorScheme.onBackground,
-                                          fontWeight: 500),
-                                      decoration: InputDecoration(
-                                        hintText: "Search messages",
-                                        hintStyle: AppTheme.getTextStyle(
-                                            themeData.textTheme.bodyText2,
-                                            letterSpacing: 0,
-                                            color: themeData
-                                                .colorScheme.onBackground,
-                                            fontWeight: 500),
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(MySize.size8),
-                                            ),
-                                            borderSide: BorderSide.none),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(MySize.size8),
-                                            ),
-                                            borderSide: BorderSide.none),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(MySize.size8),
-                                            ),
-                                            borderSide: BorderSide.none),
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.all(0),
-                                      ),
-                                      textInputAction: TextInputAction.search,
-                                      textCapitalization:
-                                          TextCapitalization.sentences,
-                                    ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: Spacing.fromLTRB(24, 16, 24, 0),
+                        decoration: BoxDecoration(
+                            color: themeData.colorScheme.background,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(MySize.size8))),
+                        padding: Spacing.all(6),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                margin:
+                                EdgeInsets.only(left: MySize.size16),
+                                child: TextFormField(
+                                  style: AppTheme.getTextStyle(
+                                      themeData.textTheme.bodyText2,
+                                      letterSpacing: 0,
+                                      color: themeData
+                                          .colorScheme.onBackground,
+                                      fontWeight: 500),
+                                  decoration: InputDecoration(
+                                    hintText: "Search messages",
+                                    hintStyle: AppTheme.getTextStyle(
+                                        themeData.textTheme.bodyText2,
+                                        letterSpacing: 0,
+                                        color: themeData
+                                            .colorScheme.onBackground,
+                                        fontWeight: 500),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(MySize.size8),
+                                        ),
+                                        borderSide: BorderSide.none),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(MySize.size8),
+                                        ),
+                                        borderSide: BorderSide.none),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(MySize.size8),
+                                        ),
+                                        borderSide: BorderSide.none),
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(0),
                                   ),
+                                  textInputAction: TextInputAction.search,
+                                  textCapitalization:
+                                  TextCapitalization.sentences,
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(MySize.size4),
-                                  decoration: BoxDecoration(
-                                      color: themeData.colorScheme.primary,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(MySize.size8))),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(MySize.size8),
-                                    child: Icon(
-                                      MdiIcons.magnify,
-                                      color: themeData.colorScheme.onPrimary,
-                                      size: MySize.size20,
-                                    ),
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
+                            Container(
+                              padding: EdgeInsets.all(MySize.size4),
+                              decoration: BoxDecoration(
+                                  color: themeData.colorScheme.primary,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(MySize.size8))),
+                              child: ClipRRect(
+                                borderRadius:
+                                BorderRadius.circular(MySize.size8),
+                                child: Icon(
+                                  MdiIcons.magnify,
+                                  color: themeData.colorScheme.onPrimary,
+                                  size: MySize.size20,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: Spacing.fromLTRB(24, 0, 24, 0),
+                          child: ListView(
+                            padding: Spacing.zero,
+                            children: [
+                              singleContact(
+                                  clickedOption: "Added",
+                                  index: 3,
+                                  image: './assets/images/avatar-4.jpg',
+                                  name: 'Andrei Ratcliffe',
+                                  option: "Add",
+                                  isActive: true,
+                                  status: "2 Mutual groups"),
+                              singleContact(
+                                  clickedOption: "Added",
+                                  index: 4,
+                                  image: './assets/images/avatar-5.jpg',
+                                  name: 'Lowri Gould',
+                                  option: "Add",
+                                  status: "3 Mutual groups"),
+                              singleContact(
+                                  clickedOption: "Added",
+                                  index: 5,
+                                  image: './assets/images/avatar.jpg',
+                                  name: 'Samson Bains',
+                                  option: "Add",
+                                  isActive: true,
+                                  status: "1 Mutual group"),
+                              singleContact(
+                                  clickedOption: "Invited",
+                                  index: 0,
+                                  image: './assets/images/avatar-2.jpg',
+                                  isActive: true,
+                                  name: 'Reanne Dudley',
+                                  option: "Invite",
+                                  status: "3 Mutual friends"),
+                              singleContact(
+                                  clickedOption: "Invited",
+                                  index: 1,
+                                  image: './assets/images/avatar-1.jpg',
+                                  name: 'Calista Garcia',
+                                  option: "Invite",
+                                  status: "8 Mutual friends"),
+                              singleContact(
+                                  clickedOption: "Invited",
+                                  index: 2,
+                                  image: './assets/images/avatar-3.jpg',
+                                  name: 'Samson Bains',
+                                  option: "Invite",
+                                  status: "Unknown"),
+                            ],
                           ),
-                          Expanded(
-                            child: Container(
-                              margin: Spacing.fromLTRB(24, 0, 24, 0),
-                              child: ListView(
-                                padding: Spacing.zero,
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: customAppTheme.bgLayer1,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(MySize.size16),
+                                topRight: Radius.circular(MySize.size16)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: customAppTheme.shadowColor,
+                                  blurRadius: MySize.size4)
+                            ],
+                            border:
+                            Border.all(color: customAppTheme.bgLayer3)),
+                        padding: Spacing.fromLTRB(16, 16, 16, 16),
+                        child: Column(
+                          children: [
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  singleContact(
-                                      clickedOption: "Added",
-                                      index: 3,
-                                      image: './assets/images/avatar-4.jpg',
-                                      name: 'Andrei Ratcliffe',
-                                      option: "Add",
-                                      isActive: true,
-                                      status: "2 Mutual groups"),
-                                  singleContact(
-                                      clickedOption: "Added",
-                                      index: 4,
-                                      image: './assets/images/avatar-5.jpg',
-                                      name: 'Lowri Gould',
-                                      option: "Add",
-                                      status: "3 Mutual groups"),
-                                  singleContact(
-                                      clickedOption: "Added",
-                                      index: 5,
-                                      image: './assets/images/avatar.jpg',
-                                      name: 'Samson Bains',
-                                      option: "Add",
-                                      isActive: true,
-                                      status: "1 Mutual group"),
-                                  singleContact(
-                                      clickedOption: "Invited",
-                                      index: 0,
-                                      image: './assets/images/avatar-2.jpg',
-                                      isActive: true,
-                                      name: 'Reanne Dudley',
-                                      option: "Invite",
-                                      status: "3 Mutual friends"),
-                                  singleContact(
-                                      clickedOption: "Invited",
-                                      index: 1,
-                                      image: './assets/images/avatar-1.jpg',
-                                      name: 'Calista Garcia',
-                                      option: "Invite",
-                                      status: "8 Mutual friends"),
-                                  singleContact(
-                                      clickedOption: "Invited",
-                                      index: 2,
-                                      image: './assets/images/avatar-3.jpg',
-                                      name: 'Samson Bains',
-                                      option: "Invite",
-                                      status: "Unknown"),
+                                  singleOption(
+                                      option: "Profile",
+                                      iconData: MdiIcons.imageOutline),
+                                  singleOption(
+                                      option: "Setting",
+                                      iconData: MdiIcons.cogOutline),
+                                  singleOption(
+                                      option: "Copy",
+                                      iconData: MdiIcons.contentCopy),
                                 ],
                               ),
                             ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: customAppTheme.bgLayer1,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(MySize.size16),
-                                    topRight: Radius.circular(MySize.size16)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: customAppTheme.shadowColor,
-                                      blurRadius: MySize.size4)
-                                ],
-                                border:
-                                    Border.all(color: customAppTheme.bgLayer3)),
-                            padding: Spacing.fromLTRB(16, 16, 16, 16),
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      singleOption(
-                                          option: "Profile",
-                                          iconData: MdiIcons.imageOutline),
-                                      singleOption(
-                                          option: "Setting",
-                                          iconData: MdiIcons.cogOutline),
-                                      singleOption(
-                                          option: "Copy",
-                                          iconData: MdiIcons.contentCopy),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: Spacing.top(16),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: customAppTheme.bgLayer3,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        MySize.size8))),
-                                            padding: Spacing.all(6),
-                                            child: TextFormField(
-                                              style: AppTheme.getTextStyle(
-                                                  themeData.textTheme.bodyText2,
-                                                  letterSpacing: 0,
-                                                  color: themeData
-                                                      .colorScheme.onBackground,
-                                                  fontWeight: 500),
-                                              decoration: InputDecoration(
-                                                hintText: "Group Name",
-                                                hintStyle:
-                                                    AppTheme.getTextStyle(
-                                                        themeData.textTheme
-                                                            .bodyText2,
-                                                        letterSpacing: 0,
-                                                        color: themeData
-                                                            .colorScheme
-                                                            .onBackground,
-                                                        fontWeight: 500),
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(
-                                                          MySize.size8),
-                                                    ),
-                                                    borderSide:
-                                                        BorderSide.none),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(
-                                                              MySize.size8),
-                                                        ),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(
-                                                              MySize.size8),
-                                                        ),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                isDense: true,
-                                                contentPadding:
-                                                    Spacing.fromLTRB(
-                                                        8, 8, 8, 8),
-                                              ),
-                                              textInputAction:
-                                                  TextInputAction.search,
-                                              textCapitalization:
-                                                  TextCapitalization.sentences,
-                                            ),
+                            Container(
+                              margin: Spacing.top(16),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: customAppTheme.bgLayer3,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                    MySize.size8))),
+                                        padding: Spacing.all(6),
+                                        child: TextFormField(
+                                          style: AppTheme.getTextStyle(
+                                              themeData.textTheme.bodyText2,
+                                              letterSpacing: 0,
+                                              color: themeData
+                                                  .colorScheme.onBackground,
+                                              fontWeight: 500),
+                                          decoration: InputDecoration(
+                                            hintText: "Group Name",
+                                            hintStyle:
+                                            AppTheme.getTextStyle(
+                                                themeData.textTheme
+                                                    .bodyText2,
+                                                letterSpacing: 0,
+                                                color: themeData
+                                                    .colorScheme
+                                                    .onBackground,
+                                                fontWeight: 500),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                  Radius.circular(
+                                                      MySize.size8),
+                                                ),
+                                                borderSide:
+                                                BorderSide.none),
+                                            enabledBorder:
+                                            OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                  Radius.circular(
+                                                      MySize.size8),
+                                                ),
+                                                borderSide:
+                                                BorderSide.none),
+                                            focusedBorder:
+                                            OutlineInputBorder(
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                  Radius.circular(
+                                                      MySize.size8),
+                                                ),
+                                                borderSide:
+                                                BorderSide.none),
+                                            isDense: true,
+                                            contentPadding:
+                                            Spacing.fromLTRB(
+                                                8, 8, 8, 8),
                                           ),
+                                          textInputAction:
+                                          TextInputAction.search,
+                                          textCapitalization:
+                                          TextCapitalization.sentences,
                                         ),
                                       ),
-                                      Container(
-                                        margin: Spacing.left(16),
-                                        child: Container(
-                                          height: MySize.size44,
-                                          width: MySize.size44,
-                                          child: FloatingActionButton(
-                                              onPressed: () {},
-                                              child: Container(
-                                                padding: Spacing.all(4),
-                                                child: Icon(MdiIcons.check,
-                                                    color: themeData
-                                                        .colorScheme.onPrimary),
-                                              ),
-                                            backgroundColor: themeData.colorScheme.primary,
-                                            mini: true,
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    margin: Spacing.left(16),
+                                    child: Container(
+                                      height: MySize.size44,
+                                      width: MySize.size44,
+                                      child: FloatingActionButton(
+                                        onPressed: () {},
+                                        child: Container(
+                                          padding: Spacing.all(4),
+                                          child: Icon(MdiIcons.check,
+                                              color: themeData
+                                                  .colorScheme.onPrimary),
+                                        ),
+                                        backgroundColor: themeData.colorScheme.primary,
+                                        mini: true,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          )
-                        ],
-                      ))),
-            ));
-      },
-    );
+                          ],
+                        ),
+                      )
+                    ],
+                  ))),
+        ));
   }
 
   Widget singleContact(

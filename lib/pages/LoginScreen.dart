@@ -9,24 +9,23 @@ import 'package:chat_app/utils/SizeConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import '../AppTheme.dart';
-import 'Register2Screen.dart';
+import '../routes.dart';
 
 
-class Login2Screen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _Login2ScreenState createState() => _Login2ScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _Login2ScreenState extends State<Login2Screen> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _passwordVisible = false, _check = false;
   ThemeData themeData;
 
   @override
   Widget build(BuildContext context) {
+    themeData=AppTheme.getThemeFromThemeMode();
     MySize().init(context);
-    themeData = Theme.of(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.getThemeFromThemeMode(1),
@@ -266,10 +265,8 @@ class _Login2ScreenState extends State<Login2Screen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Register2Screen()));
+                            AppRoutes.navigate       (AppRoutes.registerScreen, context);
+
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: MySize.size16),

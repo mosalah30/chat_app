@@ -9,7 +9,6 @@ import 'package:chat_app/core/services/theme/theme_provider.dart';
 
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import '../../AppThemeNotifier.dart';
 import '../services/connectivity/connectivity_service.dart';
 import '../services/notification/notification_service.dart';
 
@@ -29,11 +28,10 @@ List<SingleChildWidget> independentServices = [
 
 List<SingleChildWidget> dependentServices = [
   ProxyProvider<Api, AuthenticationService>(update: (context, api, authenticationService) => AuthenticationService(api: api)),
-  // ProxyProvider<AuthenticationService, NotificationService>(update: (context, auth, ns) => NotificationService(auth: auth)),
+   ProxyProvider<AuthenticationService, NotificationService>(update: (context, auth, ns) => NotificationService(auth: auth)),
 ];
 
 List<SingleChildWidget> uiConsumableProviders = [
   ChangeNotifierProvider(create: (_) => ThemeProvider()),
-  ChangeNotifierProvider(create: (_) => AppThemeNotifier()),
   ChangeNotifierProvider<AppLanguageModel>(create: (_) => AppLanguageModel()),
 ];

@@ -24,7 +24,6 @@ class ChatHomeScreen extends StatelessWidget {
         CustomAppTheme customAppTheme = model.customAppTheme;
         return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.getThemeFromThemeMode(1),
             home: Scaffold(
                 body: Container(
                     color: customAppTheme.bgLayer1,
