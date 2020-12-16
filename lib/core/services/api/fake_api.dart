@@ -35,13 +35,13 @@ class FakeApi implements Api {
   Future<User> getUser(int userId) async {
     await Future.delayed(Duration(seconds: 1));
 
-    if (userId == 1) {
-      return User(name: 'dane', phoneNumber: '999-999-00');
-    }
-
-    if (userId == 2) {
-      return User(name: 'Flutter', phoneNumber: '737-000-93');
-    }
+    // if (userId == 1) {
+    //   return User(name: 'dane', phoneNumber: '999-999-00');
+    // }
+    //
+    // if (userId == 2) {
+    //   return User(name: 'Flutter', phoneNumber: '737-000-93');
+    // }
 
     return null;
   }

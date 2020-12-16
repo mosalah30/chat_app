@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
   final int id;
@@ -14,14 +15,23 @@ class Comment {
 
 class User {
   final String name;
-  final String phoneNumber;
+  final String id;
   final String token;
 
-  User({
-    this.name,
-    this.token,
-    this.phoneNumber,
-  });
+  User({this.name, this.token, this.id});
+
+  User.fromDocumentSnapshot(DocumentSnapshot snapshot)
+      : id = snapshot.id,
+        name = (snapshot != null && snapshot["name"] != null)
+            ? snapshot["name"]
+            : "",
+        token = (snapshot != null && snapshot["token"] != null)
+            ? snapshot["token"]
+            : "";
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(name: map['name'], token: map['id']);
+  }
 
   toJson() {
     ////TODO  implementation
@@ -53,6 +63,7 @@ class Doctor {
   String location;
   String availibiltyTime;
   String timeSchedule;
+
   Doctor(
       {this.title,
       this.id,
@@ -81,8 +92,7 @@ class Doctor {
     return map;
   }
 
-//  fromJson(Map<String, dynamic> map) {
-//    id = map["id"];
-//
-//  }
+  fromJson(Map<String, dynamic> map) {
+    id = map["id"];
+  }
 }

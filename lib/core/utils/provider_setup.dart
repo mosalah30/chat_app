@@ -1,6 +1,7 @@
 // provider_setup.dart
 import 'package:chat_app/core/services/api/api.dart';
 import 'package:chat_app/core/services/api/fake_api.dart';
+import 'package:chat_app/core/services/api/firebase_api.dart';
 import 'package:chat_app/core/services/api/http_api.dart';
 import 'package:chat_app/core/services/auth/authentication_service.dart';
 import 'package:chat_app/core/services/database/database.dart';
@@ -22,13 +23,18 @@ List<SingleChildWidget> providers = [
 
 List<SingleChildWidget> independentServices = [
   Provider(create: (_) => () => DB()),
+  Provider(create: (_) => () => FirebaseApi()),
   Provider<Api>(create: (_) => USE_FAKE_IMPLEMENTATION ? FakeApi() : HttpApi()),
-  ChangeNotifierProvider<ConnectivityService>(create: (context) => ConnectivityService()),
+  ChangeNotifierProvider<ConnectivityService>(
+      create: (context) => ConnectivityService()),
 ];
 
 List<SingleChildWidget> dependentServices = [
-  ProxyProvider<Api, AuthenticationService>(update: (context, api, authenticationService) => AuthenticationService(api: api)),
-   ProxyProvider<AuthenticationService, NotificationService>(update: (context, auth, ns) => NotificationService(auth: auth)),
+  ProxyProvider<Api, AuthenticationService>(
+      update: (context, api, authenticationService) =>
+          AuthenticationService(api: api)),
+  ProxyProvider<AuthenticationService, NotificationService>(
+      update: (context, auth, ns) => NotificationService(auth: auth)),
 ];
 
 List<SingleChildWidget> uiConsumableProviders = [
