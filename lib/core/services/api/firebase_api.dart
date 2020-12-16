@@ -11,11 +11,19 @@ class FirebaseApi {
 
   FirebaseApi._internal();
 
-  FirebaseFirestore _firebaseFiretore = FirebaseFirestore.instance;
+  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  signWithEmail(String email,String password){
-    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((value) => null);
+  signInWithEmail(String email,String password)async{
+
+   return await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).catchError((e)=> print(e.toString()));
+
+  }
+
+  signUpWithEmail(String email,String password)async{
+
+   await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password).catchError((e)=> print(e.toString()));;
 
   }
 

@@ -12,6 +12,5 @@ class ChatHomeScreenModel extends BaseNotifier {
 
   someFunction() async {
     await Future.delayed(Duration(seconds: 5));
-
   }
 }
