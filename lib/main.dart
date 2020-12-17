@@ -17,7 +17,6 @@ void main() async {
       .then((_) {
     runApp(MyApp());
   });
-
 }
 
 class MyApp extends StatelessWidget {
