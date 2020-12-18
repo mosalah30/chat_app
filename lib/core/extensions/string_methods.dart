@@ -16,8 +16,8 @@ extension StringMethods on String {
 
   bool isPassword() {
     RegExp regExpEmail =
-        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    if (this == null || this.trim().isEmpty) {
+        RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$");
+    if (this == null || this.trim().isEmpty||this.length < 7) {
       return false;
     }
     return regExpEmail.hasMatch(this);
