@@ -2,6 +2,7 @@ import 'package:base_notifier/base_notifier.dart';
 import 'package:chat_app/core/page_models/login_screen_model.dart';
 import 'package:chat_app/utils/MeasureSize.dart';
 import 'package:chat_app/utils/SizeConfig.dart';
+import 'package:chat_app/utils/alert_dialog.dart';
 import 'package:chat_app/utils/snack_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +66,10 @@ class LoginScreen extends StatelessWidget {
                                                 letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
                                             onFieldSubmitted: (v) {
                                               if (!model.validEmail(v)) {
-                                                _scaffoldKey.currentState.showSnackBar( customSnackBar("Email Not Right", themeData));
+                                                _scaffoldKey.currentState.showSnackBar(customSnackBar(model.emailErrorMessage, themeData));
                                               }
                                             },
+                                            controller: model.emailTextController,
                                             decoration: InputDecoration(
                                               hintText: "Email",
                                               hintStyle: AppTheme.getTextStyle(themeData.textTheme.subtitle2,
@@ -82,10 +84,10 @@ class LoginScreen extends StatelessWidget {
                                                   letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
                                               onFieldSubmitted: (value) {
                                                 if (!model.validPassword(value)) {
-                                                  _scaffoldKey.currentState.showSnackBar(
-                                                      customSnackBar("Password must have number and letter and have more than 7 character ", themeData));
+                                                  _scaffoldKey.currentState.showSnackBar(customSnackBar(model.passwordErrorMessage, themeData));
                                                 }
                                               },
+                                              controller: model.passwordTextController,
                                               decoration: InputDecoration(
                                                 hintText: "Password",
                                                 hintStyle: AppTheme.getTextStyle(themeData.textTheme.subtitle2,
@@ -115,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                                                   onChanged: (bool value) {
                                                     model.setCheckedBoxValue(value);
                                                   },
-                                                  value: model.check,
+                                                  value: model.isRememberCheck,
                                                   visualDensity: VisualDensity.compact,
                                                 ),
                                                 Text(
@@ -143,7 +145,27 @@ class LoginScreen extends StatelessWidget {
                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                                                 color: themeData.colorScheme.primary,
                                                 splashColor: Colors.white,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  if (model.isEmailValid && model.isPasswordValid) {
+                                                    showIosProgressDialog(context);
+
+                                                    model.firebaseApi
+                                                        .signInWithEmailAndPassword(
+                                                            email: model.emailTextController.text.trim(),
+                                                            password: model.passwordTextController.text.trim(),
+                                                            isRemember: model.isRememberCheck)
+                                                        .then((value) {
+                                                      Navigator.pop(context);
+
+                                                      if (model.firebaseApi.signErrorMessage.trim().isEmpty) {
+                                                        _scaffoldKey.currentState.showSnackBar(customSnackBar(model.firebaseApi.signErrorMessage, themeData));
+                                                      } else {
+                                                        AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
+
+                                                      }
+                                                    });
+                                                  }
+                                                },
                                                 child: Text("LOGIN",
                                                     style: AppTheme.getTextStyle(themeData.textTheme.button,
                                                         fontWeight: 600, color: themeData.colorScheme.onPrimary, letterSpacing: 0.5))),
@@ -174,7 +196,19 @@ class LoginScreen extends StatelessWidget {
                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(MySize.size20)),
                                                 color: themeData.colorScheme.primary,
                                                 splashColor: Colors.white,
-                                                onPressed: () {},
+                                                onPressed: () {
+
+                                                  model.firebaseApi.signWithGoogle(function: showIosProgressDialog(context),isRemember: model.isRememberCheck).then((value) {
+                                                    Navigator.pop(context);
+                                                    if (model.firebaseApi.signErrorMessage.trim().isNotEmpty) {
+                                                      _scaffoldKey.currentState.showSnackBar(customSnackBar(model.firebaseApi.signErrorMessage, themeData));
+
+                                                    } else {
+                                                      AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
+
+                                                    }
+                                                  });
+                                                },
                                                 child: Row(
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: <Widget>[

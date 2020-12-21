@@ -13,6 +13,12 @@ extension StringMethods on String {
     }
     return regExpEmail.hasMatch(this);
   }
+  bool isHaveSmallAndLargeLetter() {
+    if (this == null || this.trim().isEmpty||this==this.toLowerCase()||this==this.toUpperCase()) {
+      return false;
+    }
+    return true;
+  }
 
   bool isPassword() {
     RegExp regExpEmail =

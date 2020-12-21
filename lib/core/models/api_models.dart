@@ -1,43 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Post {
-  final int id;
-  final String body;
-
-  Post({this.body, this.id});
-}
-
-class Comment {
-  final String body;
-
-  Comment({this.body});
-}
-
 class User {
   final String name;
   final String id;
-  final String token;
+  final String email;
+  final String phone;
 
-  User({this.name, this.token, this.id});
+  User({this.name, this.email, this.id, this.phone});
 
   User.fromDocumentSnapshot(DocumentSnapshot snapshot)
       : id = snapshot.id,
-        name = (snapshot != null && snapshot["name"] != null)
-            ? snapshot["name"]
-            : "",
-        token = (snapshot != null && snapshot["token"] != null)
-            ? snapshot["token"]
-            : "";
+        name = (snapshot != null && snapshot["name"] != null) ? snapshot["name"] : "",
+        phone = (snapshot != null && snapshot["phone"] != null) ? snapshot["phone"] : "",
+        email = (snapshot != null && snapshot["email"] != null) ? snapshot["email"] : "";
 
   factory User.fromMap(Map<String, dynamic> map) {
-    return User(name: map['name'], token: map['id']);
+    return User(name: map['name'], email: map['email'],phone: map['phone']);
   }
 
-  toJson() {
-    ////TODO  implementation
+  toMap() {
+    return {"name": name, "email": email, "id": id, "phone": phone};
   }
-
-  static User fromJson(decode) {}
 }
 
 class LoginResponse {
@@ -50,49 +33,4 @@ class LoginResponse {
     this.userId,
     this.message,
   });
-}
-
-class Doctor {
-  String id;
-  String imgUrl;
-  String name;
-  String title;
-  num rank;
-  num distnaceAway;
-  num price;
-  String location;
-  String availibiltyTime;
-  String timeSchedule;
-
-  Doctor(
-      {this.title,
-      this.id,
-      this.location,
-      this.name,
-      this.rank,
-      this.imgUrl,
-      this.price,
-      this.availibiltyTime,
-      this.distnaceAway,
-      this.timeSchedule});
-
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = {
-      "id": id,
-      "title": title,
-      "name": name,
-      "location": location,
-      "rank": rank,
-      "imgUrl": imgUrl,
-      "price": price,
-      "availibiltyTime": availibiltyTime,
-      "distanceAway": distnaceAway,
-      "timeSchedule": timeSchedule
-    };
-    return map;
-  }
-
-  fromJson(Map<String, dynamic> map) {
-    id = map["id"];
-  }
 }

@@ -19,7 +19,7 @@ class AuthenticationService {
   }
 
   /*
-  * Sign up user 
+  * Sign up user
   */
   Future<void> signUp({String fullName, String email, String password}) async {
     try {
@@ -27,7 +27,7 @@ class AuthenticationService {
       if (_user != null) {
         // Logger().i(_user.toJson());
         saveUser(user: _user);
-        saveUserToken(token: _user.token);
+      //  saveUserToken(token: _user.token);
       }
     } catch (e) {
       Logger().e(e);
@@ -40,14 +40,14 @@ class AuthenticationService {
   Future<void> login(
       {@required String email,
       @required String password,
-      String macAddress}) async {
+      String z}) async {
     try {
       _user = null; //TODO login implementation
 
       if (_user != null) {
         // Logger().i(_user.toJson());
         saveUser(user: _user);
-        saveUserToken(token: _user.token);
+        // saveUserToken(token: _user.token);
       }
     } catch (e) {
       Logger().e(e);
@@ -70,39 +70,39 @@ class AuthenticationService {
   }
 
   /*
-   *check if user is authenticated 
+   *check if user is authenticated
    */
   bool get userLoged => Preference.getBool(PrefKeys.userLogged) ?? false;
 
   /*
-   *save user in shared prefrences 
+   *save user in shared prefrences
    */
   saveUser({User user}) {
     Preference.setBool(PrefKeys.userLogged, true);
-    Preference.setString(PrefKeys.userData, json.encode(user.toJson()));
+    // Preference.setString(PrefKeys.userData, json.encode(user.toJson()));
   }
 
   /*
-   *save user token in shared prefrences 
+   *save user token in shared prefrences
    */
   saveUserToken({String token}) {
     Preference.setString(PrefKeys.token, token);
   }
 
   /*
-   * load the user info from shared prefrence if existed to be used in the service   
+   * load the user info from shared prefrence if existed to be used in the service
    */
   Future<void> get loadUser async {
-    if (userLoged) {
-      _user =
-          User.fromJson(json.decode(Preference.getString(PrefKeys.userData)));
-      Logger().i(_user.toJson());
-      print('\n\n\n');
-    }
+    // if (userLoged) {
+    //   _user =
+    //       User.fromJson(json.decode(Preference.getString(PrefKeys.userData)));
+    //   Logger().i(_user.toJson());
+    //   print('\n\n\n');
+    // }
   }
 
   /*
-   * signout the user from the app and return to the login screen   
+   * signout the user from the app and return to the login screen
    */
   Future<void> get signOut async {
     await Preference.remove(PrefKeys.userData);

@@ -11,24 +11,21 @@ import 'core/utils/provider_setup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   await Preference.init();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(MyApp());
   });
 }
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: providers,
       child: Consumer2<AppLanguageModel, ThemeProvider>(
-        builder: (c, v,l, child) {
+        builder: (c, v, l, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppTheme.getThemeFromThemeMode(0),

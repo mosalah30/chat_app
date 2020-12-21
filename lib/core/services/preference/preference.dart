@@ -6,6 +6,7 @@ class PrefKeys {
   static const String token = 'token';
   static const String userData = 'userData';
   static const String isDark = 'isDark';
+  static const String isRemember = 'isRemember';
   static const String languageCode = 'language_code';
   static const String userLogged = 'userLogged';
   static const String themeIndex = 'themeIndex';

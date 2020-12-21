@@ -64,20 +64,6 @@ class HttpApi implements Api {
   }
 
   @override
-  Future<List<Comment>> getCommentsForPost(int postId) async {
-    await request(EndPoint.COMMENT);
-
-    return null;
-  }
-
-  @override
-  Future<List<Post>> getPostsForUser(int userId) async {
-    await request(EndPoint.COMMENT);
-
-    return null;
-  }
-
-  @override
   Future<User> getUser(int userId) async {
     await request(EndPoint.COMMENT);
     return null;
