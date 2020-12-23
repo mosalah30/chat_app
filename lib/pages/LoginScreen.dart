@@ -64,11 +64,6 @@ class LoginScreen extends StatelessWidget {
                                           TextFormField(
                                             style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
                                                 letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
-                                            onFieldSubmitted: (v) {
-                                              if (!model.validEmail(v)) {
-                                                _scaffoldKey.currentState.showSnackBar(customSnackBar(model.emailErrorMessage, themeData));
-                                              }
-                                            },
                                             controller: model.emailTextController,
                                             decoration: InputDecoration(
                                               hintText: "Email",
@@ -82,11 +77,6 @@ class LoginScreen extends StatelessWidget {
                                             child: TextFormField(
                                               style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
                                                   letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
-                                              onFieldSubmitted: (value) {
-                                                if (!model.validPassword(value)) {
-                                                  _scaffoldKey.currentState.showSnackBar(customSnackBar(model.passwordErrorMessage, themeData));
-                                                }
-                                              },
                                               controller: model.passwordTextController,
                                               decoration: InputDecoration(
                                                 hintText: "Password",
@@ -146,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                                                 color: themeData.colorScheme.primary,
                                                 splashColor: Colors.white,
                                                 onPressed: () {
-                                                  if (model.isEmailValid && model.isPasswordValid) {
+                                                  if (model.isValidSignIn(email: model.emailTextController.text, password: model.passwordTextController.text)) {
                                                     showIosProgressDialog(context);
 
                                                     model.firebaseApi
@@ -157,13 +147,15 @@ class LoginScreen extends StatelessWidget {
                                                         .then((value) {
                                                       Navigator.pop(context);
 
-                                                      if (model.firebaseApi.signErrorMessage.trim().isEmpty) {
+                                                      if (model.firebaseApi.signErrorMessage.trim().isNotEmpty) {
                                                         _scaffoldKey.currentState.showSnackBar(customSnackBar(model.firebaseApi.signErrorMessage, themeData));
                                                       } else {
                                                         AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
-
                                                       }
                                                     });
+                                                  }else{
+                                                    _scaffoldKey.currentState.showSnackBar(customSnackBar(model.signInErrorMessage, themeData));
+
                                                   }
                                                 },
                                                 child: Text("LOGIN",
@@ -197,15 +189,13 @@ class LoginScreen extends StatelessWidget {
                                                 color: themeData.colorScheme.primary,
                                                 splashColor: Colors.white,
                                                 onPressed: () {
-
-                                                  model.firebaseApi.signWithGoogle(function: showIosProgressDialog(context),isRemember: model.isRememberCheck).then((value) {
-                                                    Navigator.pop(context);
+                                                  model.firebaseApi
+                                                      .signWithGoogle(function: showIosProgressDialog(context), isRemember: model.isRememberCheck)
+                                                      .then((value) {
                                                     if (model.firebaseApi.signErrorMessage.trim().isNotEmpty) {
                                                       _scaffoldKey.currentState.showSnackBar(customSnackBar(model.firebaseApi.signErrorMessage, themeData));
-
                                                     } else {
                                                       AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
-
                                                     }
                                                   });
                                                 },

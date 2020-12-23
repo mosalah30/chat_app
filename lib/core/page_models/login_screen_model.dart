@@ -5,11 +5,11 @@ import 'package:chat_app/core/services/preference/preference.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreenModelPage extends BaseNotifier {
-  bool passwordVisible = false, isRememberCheck = false, isEmailValid = false, isPasswordValid = false;
+  bool passwordVisible = false, isRememberCheck = false;
   var firebaseApi = FirebaseApi();
 
-  String emailErrorMessage = "";
-  String passwordErrorMessage = "";
+  String signInErrorMessage = "";
+
 
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -19,47 +19,45 @@ class LoginScreenModelPage extends BaseNotifier {
     notifyListeners();
   }
 
-  validEmail(String email) {
+  isValidSignIn({@required String email, @required String password}) {
+
     if (email == null || email.isEmpty) {
-      emailErrorMessage = "Email is Empty";
+      signInErrorMessage = "Email is Empty";
 
       return false;
     }
     if (!StringMethods(email).isEmail()) {
-      emailErrorMessage = "you must write Right Email";
+      signInErrorMessage = "you must write Right Email";
       return false;
     }
-    isEmailValid = true;
-    return isEmailValid;
+    if (password == null || password.isEmpty) {
+      signInErrorMessage = "password is Empty";
+      return false;
+    }
+
+    if (password.length < 7) {
+      signInErrorMessage = "Password must have more than 8 character";
+      return false;
+    }
+
+    if (!StringMethods(password).isHaveSmallAndLargeLetter()) {
+      signInErrorMessage = "password must have at least  one capital letter and small letter ";
+      return false;
+    }
+    return true;
   }
+
+
 
   saveAccount(bool isSaveAccount) {
     Preference.setBool("saveAccount", isSaveAccount);
   }
 
-  validPassword(String password) {
-    isPasswordValid = StringMethods(password).isPassword();
 
-    if (password == null || password.isEmpty) {
-      passwordErrorMessage = "password is Empty";
-      return false;
-    }
-
-    if (password.length < 7) {
-      passwordErrorMessage = "Password must have more than 8 character";
-      return false;
-    }
-
-    if (!StringMethods(password).isHaveSmallAndLargeLetter()) {
-      passwordErrorMessage = "password must have at least  one capital letter and small letter ";
-      return false;
-    }
-    isPasswordValid = true;
-    return isPasswordValid;
-  }
 
   setPasswordVisible() {
     this.passwordVisible = !this.passwordVisible;
+    notifyListeners();
   }
 
   @override
