@@ -2,6 +2,7 @@ import 'package:base_notifier/base_notifier.dart';
 import 'package:chat_app/core/extensions/string_methods.dart';
 import 'package:chat_app/core/services/api/firebase_api.dart';
 import 'package:chat_app/core/services/preference/preference.dart';
+import 'package:chat_app/routes.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreenModelPage extends BaseNotifier {
@@ -9,7 +10,6 @@ class LoginScreenModelPage extends BaseNotifier {
   var firebaseApi = FirebaseApi();
 
   String signInErrorMessage = "";
-
 
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -20,7 +20,6 @@ class LoginScreenModelPage extends BaseNotifier {
   }
 
   isValidSignIn({@required String email, @required String password}) {
-
     if (email == null || email.isEmpty) {
       signInErrorMessage = "Email is Empty";
 
@@ -47,13 +46,19 @@ class LoginScreenModelPage extends BaseNotifier {
     return true;
   }
 
+  isLoginBefore(BuildContext context)  {
 
+    var isLogin =  Preference.getBool(PrefKeys.isRemember);
+    if(isLogin){
+      AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
+    }
+    
+    return isLogin;
+  }
 
   saveAccount(bool isSaveAccount) {
     Preference.setBool("saveAccount", isSaveAccount);
   }
-
-
 
   setPasswordVisible() {
     this.passwordVisible = !this.passwordVisible;

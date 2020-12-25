@@ -1,5 +1,6 @@
 import 'package:base_notifier/base_notifier.dart';
 import 'package:chat_app/core/page_models/login_screen_model.dart';
+import 'package:chat_app/core/services/preference/preference.dart';
 import 'package:chat_app/utils/MeasureSize.dart';
 import 'package:chat_app/utils/SizeConfig.dart';
 import 'package:chat_app/utils/alert_dialog.dart';
@@ -20,6 +21,7 @@ class LoginScreen extends StatelessWidget {
 
     return BaseWidget<LoginScreenModelPage>(
       model: LoginScreenModelPage(),
+      initState:isLoginBefore(context),
       builder: (context, model, child) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -244,6 +246,15 @@ class LoginScreen extends StatelessWidget {
       },
     );
   }
+
+  isLoginBefore(BuildContext context)  {
+    var isLogin =  Preference.getBool(PrefKeys.isRemember);
+    if(isLogin){
+      AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
+    }
+    return isLogin;
+  }
+
 }
 
 class _MyCustomClipper extends CustomClipper<Path> {

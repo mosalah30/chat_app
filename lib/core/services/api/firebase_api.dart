@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:chat_app/core/models/api_models.dart';
 import 'package:chat_app/core/services/preference/preference.dart';
@@ -10,6 +11,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseApi {
   static const users = "Users";
   static const profile = "Profile";
+  static const chat = "Chat";
+  static const friends = "Friends";
+  static const friendId = "Friend_id";
   String signErrorMessage = "";
 
   static final FirebaseApi _singleton = FirebaseApi._internal();
@@ -20,11 +24,10 @@ class FirebaseApi {
 
   FirebaseApi._internal();
 
-  final FirebaseFirestore _firebaseFireStore = FirebaseFirestore.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   auth.FirebaseUser firebaseUser;
 
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
-
 
   Future signInWithEmailAndPassword({@required String email, @required String password, @required bool isRemember}) async {
     try {
@@ -44,7 +47,7 @@ class FirebaseApi {
           case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
             signErrorMessage = "Network Error";
             break;
-          // ...
+        // ...
           default:
             print('Case ${e.message} is not yet implemented');
         }
@@ -59,7 +62,7 @@ class FirebaseApi {
           case 'Error 17020':
             signErrorMessage = "Network Error";
             break;
-          // ...
+        // ...
           default:
             signErrorMessage = '${e.message}';
         }
@@ -84,7 +87,7 @@ class FirebaseApi {
 
         case 'ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL':
           signErrorMessage =
-              "The e-mail address in your Facebook account has been registered in the system before. Please login by trying other methods with this e-mail address.";
+          "The e-mail address in your Facebook account has been registered in the system before. Please login by trying other methods with this e-mail address.";
           break;
 
         case 'ERROR_WRONG_PASSWORD':
@@ -104,9 +107,9 @@ class FirebaseApi {
   }
 
   saveProfileToFireStore({@required String name, @required String email, @required String phone, @required id}) {
-    _firebaseFireStore.collection(users).add(
-          User(name: name, email: email, id: id, phone: phone).toMap(),
-        );
+    _fireStore.collection(users).add(
+      User(name: name, email: email, id: id, phone: phone).toMap(),
+    );
   }
 
   Future userLogOut() async {
@@ -114,7 +117,7 @@ class FirebaseApi {
     await _firebaseAuth.signOut();
   }
 
- Future signWithGoogle({@required Function function ,bool isRemember}) async {
+  Future signWithGoogle({@required Function function, bool isRemember}) async {
     try {
       signErrorMessage = "";
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -134,4 +137,30 @@ class FirebaseApi {
       signErrorMessage = " ${e.message}";
     }
   }
+
+  Stream getLastChatSnapshot({@required String chatId}) {
+    return _fireStore.collection(chat).where(chatId,isEqualTo:chatId).snapshots();
+  }
+
+  Future getProfile({@required String userId}) {
+    return _fireStore.collection(users).doc(userId).get();
+  }
+
+  Stream getUsers() {
+    return _fireStore.collection(users).snapshots();
+  }
+
+  Stream getUserFriendsIdsSnapshot({@required String userId}) {
+    return _fireStore.collection(users).doc(userId).collection(friends).snapshots();
+  }
+
+  Stream getUserFriendSnapshot({@required String friendId}) {
+    return _fireStore.collection(users).doc(friendId).snapshots();
+  }
+
+  Future addFriend({@required String userId,String friendId}){
+   return _fireStore.collection(users).doc(userId).collection(friends).doc(friendId).set({friendId:friendId});
+  }
+
+
 }
