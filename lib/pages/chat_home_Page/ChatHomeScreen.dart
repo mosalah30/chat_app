@@ -145,92 +145,39 @@ class ChatHomeScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: Spacing.top(24),
-                                  child: singleChat(
-                                      image: './assets/images/avatar-1.jpg',
-                                      time: "12:34 AM",
-                                      badgeNumber: "2",
-                                      message: Generator.getDummyText(5),
-                                      isNew: true,
-                                      name: "Alice Henry",
-                                      isActive: true,
-                                      context: context,
-                                      themeData: themeData,
-                                      customAppTheme: customAppTheme),
-                                ),
-                                Container(
                                     margin: Spacing.vertical(16),
                                     child: Divider(
                                       height: 0,
                                     )),
-                                singleChat(
-                                    image: './assets/images/avatar-4.jpg',
-                                    time: "8:12 PM",
-                                    message: Generator.getDummyText(5),
-                                    isNew: true,
-                                    badgeNumber: "4",
-                                    name: "Jevon Shah",
-                                    context: context,
-                                    themeData: themeData,
-                                    customAppTheme: customAppTheme),
-                                Container(
-                                    margin: Spacing.vertical(16),
-                                    child: Divider(
-                                      height: 0,
-                                    )),
-                                singleChat(
-                                    image: './assets/images/avatar-3.jpg',
-                                    isNew: false,
-                                    time: "5:30 AM",
-                                    message: Generator.getDummyText(5),
-                                    name: "Susie Salter",
-                                    context: context,
-                                    themeData: themeData,
-                                    customAppTheme: customAppTheme),
-                                Container(
-                                    margin: Spacing.vertical(16),
-                                    child: Divider(
-                                      height: 0,
-                                    )),
-                                singleChat(
-                                    image: './assets/images/avatar-2.jpg',
-                                    isNew: false,
-                                    time: "1:24 PM",
-                                    message: Generator.getDummyText(5),
-                                    name: "Kaylen Lamb",
-                                    isActive: true,
-                                    context: context,
-                                    themeData: themeData,
-                                    customAppTheme: customAppTheme),
-                                Container(
-                                    margin: Spacing.vertical(16),
-                                    child: Divider(
-                                      height: 0,
-                                    )),
-                                singleChat(
-                                    image: './assets/images/avatar-5.jpg',
-                                    isNew: false,
-                                    time: "7:10 AM",
-                                    message: Generator.getDummyText(5),
-                                    name: "Joey Callaghan",
-                                    isActive: true,
-                                    context: context,
-                                    themeData: themeData,
-                                    customAppTheme: customAppTheme),
-                                Container(
-                                    margin: Spacing.vertical(16),
-                                    child: Divider(
-                                      height: 0,
-                                    )),
-                                singleChat(
-                                    image: './assets/images/avatar.jpg',
-                                    isNew: false,
-                                    time: "7:10 AM",
-                                    message: Generator.getDummyText(5),
-                                    name: "Joel Holman",
-                                    context: context,
-                                    themeData: themeData,
-                                    customAppTheme: customAppTheme),
+                                StreamBuilder(
+                                  stream: model.firebase.getUserChatsIdsSnapshot(userId:model.firebase.firebaseUser.uid),
+                                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                  return StreamBuilder(
+                                    stream: model.firebase.getLastChatSnapshot(cId: "koskspdkpsksksk"),
+                                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                      return Column(
+                                        children: [
+                                          singleChat(
+                                              image: './assets/images/avatar-4.jpg',
+                                              time: "8:12 PM",
+                                              message: Generator.getDummyText(5),
+                                              isNew: true,
+                                              isActive: true,
+                                              badgeNumber: "4",
+                                              name: "Jevon Shah",
+                                              context: context,
+                                              themeData: themeData,
+                                              customAppTheme: customAppTheme),
+                                          Container(
+                                              margin: Spacing.vertical(16),
+                                              child: Divider(
+                                                height: 0,
+                                              ))
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }),
                               ],
                             ),
                           ),

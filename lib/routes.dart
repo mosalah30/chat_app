@@ -17,4 +17,7 @@ class AppRoutes {
   static navigateUntil(Widget widget, BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => widget), (Route<dynamic> route) => false);
   }
+  static navigateReplace(Widget widget, BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => widget));
+  }
 }

@@ -31,7 +31,7 @@ class EndPoint {
 abstract class Api {
   Future<LoginResponse> login({String username, String password});
 
-  Future<User> getUser(int userId);
+  Future<UserModel> getUser(int userId);
 
 
 

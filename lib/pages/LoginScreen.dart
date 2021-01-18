@@ -21,7 +21,9 @@ class LoginScreen extends StatelessWidget {
 
     return BaseWidget<LoginScreenModelPage>(
       model: LoginScreenModelPage(),
-      initState:isLoginBefore(context),
+      initState: (m) {
+        m.isLoginBefore(context);
+      },
       builder: (context, model, child) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -155,9 +157,8 @@ class LoginScreen extends StatelessWidget {
                                                         AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
                                                       }
                                                     });
-                                                  }else{
+                                                  } else {
                                                     _scaffoldKey.currentState.showSnackBar(customSnackBar(model.signInErrorMessage, themeData));
-
                                                   }
                                                 },
                                                 child: Text("LOGIN",
@@ -247,13 +248,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  isLoginBefore(BuildContext context)  {
-    var isLogin =  Preference.getBool(PrefKeys.isRemember);
-    if(isLogin){
-      AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
-    }
-    return isLogin;
-  }
 
 }
 

@@ -12,6 +12,7 @@ class FirebaseApi {
   static const users = "Users";
   static const profile = "Profile";
   static const chat = "Chat";
+  static const chatId = "ChatId";
   static const friends = "Friends";
   static const friendId = "Friend_id";
   String signErrorMessage = "";
@@ -25,7 +26,7 @@ class FirebaseApi {
   FirebaseApi._internal();
 
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-  auth.FirebaseUser firebaseUser;
+  auth.User firebaseUser;
 
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
@@ -47,7 +48,7 @@ class FirebaseApi {
           case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
             signErrorMessage = "Network Error";
             break;
-        // ...
+          // ...
           default:
             print('Case ${e.message} is not yet implemented');
         }
@@ -62,7 +63,7 @@ class FirebaseApi {
           case 'Error 17020':
             signErrorMessage = "Network Error";
             break;
-        // ...
+          // ...
           default:
             signErrorMessage = '${e.message}';
         }
@@ -87,7 +88,7 @@ class FirebaseApi {
 
         case 'ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL':
           signErrorMessage =
-          "The e-mail address in your Facebook account has been registered in the system before. Please login by trying other methods with this e-mail address.";
+              "The e-mail address in your Facebook account has been registered in the system before. Please login by trying other methods with this e-mail address.";
           break;
 
         case 'ERROR_WRONG_PASSWORD':
@@ -100,6 +101,10 @@ class FirebaseApi {
     }
   }
 
+  getUser() {
+    firebaseUser= _firebaseAuth.currentUser;
+  }
+
   Future saveProfilePreference(auth.UserCredential userCredential, [bool isRemember = false]) async {
     await Preference.setString(PrefKeys.token, userCredential.user.uid);
     await Preference.setBool(PrefKeys.userLogged, true);
@@ -108,8 +113,8 @@ class FirebaseApi {
 
   saveProfileToFireStore({@required String name, @required String email, @required String phone, @required id}) {
     _fireStore.collection(users).add(
-      User(name: name, email: email, id: id, phone: phone).toMap(),
-    );
+          UserModel(name: name, email: email, id: id, phone: phone).toMap(),
+        );
   }
 
   Future userLogOut() async {
@@ -138,8 +143,12 @@ class FirebaseApi {
     }
   }
 
-  Stream getLastChatSnapshot({@required String chatId}) {
-    return _fireStore.collection(chat).where(chatId,isEqualTo:chatId).snapshots();
+  Stream getLastChatSnapshot({@required String cId}) {
+    return _fireStore.collection(chat).where(cId, isEqualTo: chatId).snapshots();
+  }
+
+  Stream getUserChatsIdsSnapshot({@required String userId}) {
+    return _fireStore.collection(users).doc(userId).collection(chatId).snapshots();
   }
 
   Future getProfile({@required String userId}) {
@@ -158,9 +167,7 @@ class FirebaseApi {
     return _fireStore.collection(users).doc(friendId).snapshots();
   }
 
-  Future addFriend({@required String userId,String friendId}){
-   return _fireStore.collection(users).doc(userId).collection(friends).doc(friendId).set({friendId:friendId});
+  Future addFriend({@required String userId, @required String friendId}) {
+    return _fireStore.collection(users).doc(userId).collection(friends).doc(friendId).set({friendId: friendId});
   }
-
-
 }

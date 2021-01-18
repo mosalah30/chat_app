@@ -46,16 +46,6 @@ class LoginScreenModelPage extends BaseNotifier {
     return true;
   }
 
-  isLoginBefore(BuildContext context)  {
-
-    var isLogin =  Preference.getBool(PrefKeys.isRemember);
-    if(isLogin){
-      AppRoutes.navigateUntil(AppRoutes.chatHomeScreen, context);
-    }
-    
-    return isLogin;
-  }
-
   saveAccount(bool isSaveAccount) {
     Preference.setBool("saveAccount", isSaveAccount);
   }
@@ -70,5 +60,14 @@ class LoginScreenModelPage extends BaseNotifier {
     super.dispose();
     emailTextController.dispose();
     passwordTextController.dispose();
+  }
+
+  isLoginBefore(BuildContext context) async {
+    bool isLogin = Preference.getBool(PrefKeys.isRemember) == null ? false : Preference.getBool(PrefKeys.isRemember);
+    if (isLogin) {
+      firebaseApi.getUser();
+      AppRoutes.navigateReplace(AppRoutes.chatHomeScreen, context);
+    }
+    return isLogin;
   }
 }

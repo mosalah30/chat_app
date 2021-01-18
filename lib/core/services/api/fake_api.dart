@@ -7,7 +7,7 @@ import 'api.dart';
 class FakeApi implements Api {
 
   @override
-  Future<User> getUser(int userId) async {
+  Future<UserModel> getUser(int userId) async {
     await Future.delayed(Duration(seconds: 1));
 
     // if (userId == 1) {

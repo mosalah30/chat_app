@@ -11,8 +11,8 @@ import '../preference/preference.dart';
 class AuthenticationService {
   final Api api;
 
-  User _user;
-  User get user => _user;
+  UserModel _user;
+  UserModel get user => _user;
 
   AuthenticationService({this.api}) {
     loadUser;
@@ -77,7 +77,7 @@ class AuthenticationService {
   /*
    *save user in shared prefrences
    */
-  saveUser({User user}) {
+  saveUser({UserModel user}) {
     Preference.setBool(PrefKeys.userLogged, true);
     // Preference.setString(PrefKeys.userData, json.encode(user.toJson()));
   }
