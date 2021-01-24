@@ -21,9 +21,7 @@ class LoginScreen extends StatelessWidget {
 
     return BaseWidget<LoginScreenModelPage>(
       model: LoginScreenModelPage(),
-      initState: (m) {
-        m.isLoginBefore(context);
-      },
+      initState: (m) => m.isLoginBefore(context),
       builder: (context, model, child) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,

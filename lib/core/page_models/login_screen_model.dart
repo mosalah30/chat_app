@@ -64,10 +64,10 @@ class LoginScreenModelPage extends BaseNotifier {
 
   isLoginBefore(BuildContext context) async {
     bool isLogin = Preference.getBool(PrefKeys.isRemember) == null ? false : Preference.getBool(PrefKeys.isRemember);
+    print(isLogin.toString()+"    sddddddd");
     if (isLogin) {
       firebaseApi.getUser();
       AppRoutes.navigateReplace(AppRoutes.chatHomeScreen, context);
     }
-    return isLogin;
   }
 }

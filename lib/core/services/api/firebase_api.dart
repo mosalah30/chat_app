@@ -102,7 +102,7 @@ class FirebaseApi {
   }
 
   getUser() {
-    firebaseUser= _firebaseAuth.currentUser;
+    firebaseUser = _firebaseAuth.currentUser;
   }
 
   Future saveProfilePreference(auth.UserCredential userCredential, [bool isRemember = false]) async {
@@ -143,12 +143,22 @@ class FirebaseApi {
     }
   }
 
-  Stream getLastChatSnapshot({@required String cId}) {
-    return _fireStore.collection(chat).where(cId, isEqualTo: chatId).snapshots();
+  Future<QuerySnapshot> getLastChatSnapshot({@required String cId}) {
+
+    return _fireStore.collection(chat).where(cId, isEqualTo: chatId).get();
   }
 
-  Stream getUserChatsIdsSnapshot({@required String userId}) {
-    return _fireStore.collection(users).doc(userId).collection(chatId).snapshots();
+  Future<List<String>> getUserChatsIdsSnapshot({@required String userId}) async {
+    var chatIdsList = List<String>();
+    var chatIdQuerySnapshot = await _fireStore.collection(users).doc(userId).collection(chatId).get();
+    chatIdQuerySnapshot.docs.forEach((element) {
+      chatIdsList.add(element.get(chatId));
+    });
+    return chatIdsList;
+  }
+
+  Future addUserChatsIdsSnapshot({@required String userId, @required newChatId, @required String time}) {
+    return _fireStore.collection(users).doc(userId).collection(chatId).doc(time).set({"chatId": newChatId});
   }
 
   Future getProfile({@required String userId}) {

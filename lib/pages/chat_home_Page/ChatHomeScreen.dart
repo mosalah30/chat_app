@@ -1,4 +1,5 @@
 import 'package:base_notifier/base_notifier.dart';
+import 'package:chat_app/core/models/api_models.dart';
 import 'package:chat_app/core/page_models/chat_home_screen_mode.dart';
 import 'package:chat_app/pages/chat_home_Page/widgets/chat_home_screen_widgets.dart';
 import 'package:chat_app/utils/Generator.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import '../../AppTheme.dart';
 import '../ChatContactScreen.dart';
 import '../ChatCreateGroupScreen.dart';
@@ -19,6 +19,7 @@ class ChatHomeScreen extends StatelessWidget {
     MySize().init(context);
     return BaseWidget<ChatHomeScreenModel>(
       model: ChatHomeScreenModel(),
+      initState: (m) => m.getLastChats(),
       builder: (context, model, child) {
         ThemeData themeData = model.themeData;
         CustomAppTheme customAppTheme = model.customAppTheme;
@@ -150,34 +151,55 @@ class ChatHomeScreen extends StatelessWidget {
                                       height: 0,
                                     )),
                                 StreamBuilder(
-                                  stream: model.firebase.getUserChatsIdsSnapshot(userId:model.firebase.firebaseUser.uid),
-                                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                  return StreamBuilder(
-                                    stream: model.firebase.getLastChatSnapshot(cId: "koskspdkpsksksk"),
-                                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                      return Column(
-                                        children: [
-                                          singleChat(
-                                              image: './assets/images/avatar-4.jpg',
-                                              time: "8:12 PM",
-                                              message: Generator.getDummyText(5),
-                                              isNew: true,
-                                              isActive: true,
-                                              badgeNumber: "4",
-                                              name: "Jevon Shah",
-                                              context: context,
-                                              themeData: themeData,
-                                              customAppTheme: customAppTheme),
-                                          Container(
-                                              margin: Spacing.vertical(16),
-                                              child: Divider(
-                                                height: 0,
-                                              ))
-                                        ],
+                                  stream: model.chatListController.stream,
+                                  builder: (BuildContext context, AsyncSnapshot<List<ChatModel>> snapshot) {
+                                    if (snapshot.hasData) {
+                                      if (snapshot.data.length > 0) {
+                                        return ListView.builder(
+                                          itemCount: snapshot.data.length,
+                                          itemBuilder: (c, index) {
+                                            UserModel user;
+                                            if(snapshot.data.elementAt(index).users.elementAt(0).id!= model.firebase.firebaseUser.uid){
+                                              user =snapshot.data.elementAt(index).users.elementAt(0);
+
+                                            }else{
+                                              user = snapshot.data.elementAt(index).users.elementAt(1);
+
+                                            }
+                                            return Column(
+                                              children: [
+                                                singleChat(
+                                                    image: user.image,
+                                                    time: snapshot.data.elementAt(index).messages.elementAt(snapshot.data.elementAt(index).messages.length - 1).time.toString(),
+                                                    message: snapshot.data.elementAt(index).messages.elementAt(snapshot.data.elementAt(index).messages.length - 1).text ,
+                                                    isNew:  snapshot.data.elementAt(index).messages.elementAt(snapshot.data.elementAt(index).messages.length - 1).isNew,
+                                                    isActive: true,
+                                                    badgeNumber: "4",
+                                                    name: user.name,
+                                                    context: context,
+                                                    themeData: themeData,
+                                                    customAppTheme: customAppTheme),
+                                                Container(
+                                                    margin: Spacing.vertical(16),
+                                                    child: Divider(
+                                                      height: 0,
+                                                    ))
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: Text("noChat"),
+                                        );
+                                      }
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
                                       );
-                                    },
-                                  );
-                                }),
+                                    }
+                                  },
+                                ),
                               ],
                             ),
                           ),
