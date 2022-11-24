@@ -1,4 +1,4 @@
-package com.example.chat_app
+package com.h.chat_app
 
 // MainActivity.kt
 -import android.os.Bundle
